@@ -1,2 +1,3 @@
 object_storage
 .ipynb_checkpoints
+*.png
