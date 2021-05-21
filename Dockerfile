@@ -1,18 +1,11 @@
 FROM python:3.8.2-slim
 
-ARG DB_URI
-ENV DB_URI=${DB_URI}
-ARG VIRTUAL_PORT
-ENV VIRTUAL_PORT=${VIRTUAL_PORT}
-ARG ARTIFACT_PATH
-ENV ARTIFACT_PATH=${ARTIFACT_PATH}
-
-RUN pip install psycopg2-binary mlflow
+RUN pip install psycopg2-binary mlflow boto3
 
 EXPOSE 5000
 
 CMD mlflow server \
-    --backend-store-uri "$DB_URI" \
+    --backend-store-uri "$DB_CON_URL" \
     --host 0.0.0.0 \
-    --port "$VIRTUAL_PORT" \
-    --default-artifact-root "$ARTIFACT_PATH"
+    --port 5000 \
+    --default-artifact-root s3://mlflow
