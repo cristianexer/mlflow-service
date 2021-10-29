@@ -1,3 +1,5 @@
 object_storage
 .ipynb_checkpoints
 *.png
+*.csv
+.DS_Store

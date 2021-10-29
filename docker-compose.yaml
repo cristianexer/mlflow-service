@@ -4,19 +4,20 @@ services:
     image: minio/minio:latest
     ports:
       - 9000:9000
+      - 9001:9001
     environment:
       MINIO_ACCESS_KEY: ${AWS_ACCESS_KEY_ID}
       MINIO_SECRET_KEY: ${AWS_SECRET_ACCESS_KEY}
       MINIO_REGION_NAME: ${AWS_DEFAULT_REGION}
     command: 
-      server /data
+      server /data --console-address :9001 --address :9000
     volumes:
       - ./object_storage:/data
     networks:
       - internal_network
 
   postgresql:
-    image: postgres:10.5
+    image: postgres:latest
     ports:
       - 5432:5432
     environment:
@@ -32,6 +33,7 @@ services:
 
   mlflow:
     build: .
+    platform: linux
     environment:
       DB_CON_URL: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/mlflow-db
       MLFLOW_S3_ENDPOINT_URL: ${MLFLOW_S3_ENDPOINT_URL}
@@ -40,7 +42,7 @@ services:
       AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
       AWS_BUCKET_NAME: ${AWS_BUCKET_NAME}
     ports:
-      - 5000:5000
+      - 3000:5000
     depends_on:
       - postgresql
       - minio
