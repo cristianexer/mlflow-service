@@ -3,3 +3,4 @@ object_storage
 *.png
 *.csv
 .DS_Store
+custom_tfidf_model

@@ -58,19 +58,18 @@ def main():
     features = list(processed_data.columns)
 
     logging.info('Start MLFlow Experiment')
-    with mlflow.start_run(run_name="zip-model") as run:
 
-        binomial_model = mlflow.sklearn.load_model("runs:/797d72b44b1b49b5a1297de75bc8373a/binomial_model")
-        gamma_model = mlflow.sklearn.load_model("runs:/797d72b44b1b49b5a1297de75bc8373a/gamma_model")
-        poisson_model = mlflow.sklearn.load_model("runs:/797d72b44b1b49b5a1297de75bc8373a/poisson_model")
+    binomial_model = mlflow.sklearn.load_model("runs:/797d72b44b1b49b5a1297de75bc8373a/binomial_model")
+    gamma_model = mlflow.sklearn.load_model("runs:/797d72b44b1b49b5a1297de75bc8373a/gamma_model")
+    poisson_model = mlflow.sklearn.load_model("runs:/797d72b44b1b49b5a1297de75bc8373a/poisson_model")
 
-        binomial_predictions = binomial_model.predict_proba(processed_data[features])[:,1]
-        gamma_predictions = gamma_model.predict(processed_data[features])
-        poisson_predictions = poisson_model.predict(processed_data[features])
+    binomial_predictions = binomial_model.predict_proba(processed_data[features])[:,1]
+    gamma_predictions = gamma_model.predict(processed_data[features])
+    poisson_predictions = poisson_model.predict(processed_data[features])
 
-        loss_cost = (binomial_predictions * poisson_predictions) * gamma_predictions
+    loss_cost = (binomial_predictions * poisson_predictions) * gamma_predictions
 
-        print(loss_cost)
+    print(loss_cost)
         
 
 if __name__ == '__main__':

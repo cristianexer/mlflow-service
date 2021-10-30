@@ -16,8 +16,8 @@ services:
     networks:
       - internal_network
 
-  postgresql:
-    image: postgres:latest
+  postgres:
+    image: postgres:12.2
     ports:
       - 5432:5432
     environment:
@@ -35,7 +35,7 @@ services:
     build: .
     platform: linux
     environment:
-      DB_CON_URL: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/mlflow-db
+      DB_CON_URL: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/mlflow-db
       MLFLOW_S3_ENDPOINT_URL: ${MLFLOW_S3_ENDPOINT_URL}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
@@ -44,7 +44,7 @@ services:
     ports:
       - 3000:5000
     depends_on:
-      - postgresql
+      - postgres
       - minio
     networks:
       - internal_network
