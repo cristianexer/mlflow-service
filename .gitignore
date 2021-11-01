@@ -4,3 +4,5 @@ object_storage
 *.csv
 .DS_Store
 custom_tfidf_model
+*.pyc
+__pycache__
